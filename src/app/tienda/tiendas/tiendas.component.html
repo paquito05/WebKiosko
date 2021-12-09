@@ -1,0 +1,118 @@
+<div class="main-content mt-0 pt-5">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="" style="background-color:transparent;">
+                    <div class="">
+                        <h2>
+                            <span class="pull-right" *ngIf="mostrarnuevoTienda == true">
+                                <button mat-raised-button class="btn btn-behance btn-round" data-toggle="modal"
+                                    data-target="#noticeModal">
+                                    <i class="material-icons"> store </i> Nueva
+                                </button>
+                            </span>
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- CReacion de una nueva Tienda -->
+                <!-- notice modal -->
+                <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-notice">
+
+
+                        <div class="modal-content">
+                            <form #formNewTienda="ngForm" (ngSubmit)="onSubmit(formNewTienda)" class="form" method=""
+                                action="">
+                                <div class="modal-header">
+
+                                    <h3 class="modal-title" id="myModalLabel">Nueva Tienda</h3>
+                                    <button mat-button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">
+                                        <i class="material-icons">close</i>
+                                    </button>
+
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="instruction">
+                                        <label for=""> Informacion de acceso a la Tienda</label>
+                                        <div class="row">
+
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #correo="ngModel" [(ngModel)]="newTiendaUsuario.correo"
+                                                        matInput type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                                                        required placeholder="Email" name="correo">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #password="ngModel" [(ngModel)]="newTiendaUsuario.password"
+                                                        required matInput type="password" placeholder="Password"
+                                                        name="password"  >
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #nombre="ngModel" [(ngModel)]="newTienda.nombre" required
+                                                        matInput type="text" placeholder="Nombre de la Tienda"
+                                                        name="nombre"  >
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #ubicacion="ngModel" [(ngModel)]="newTienda.ubicacion"
+                                                        required name="ubicacion" matInput type="text"
+                                                        placeholder="Direccion de la Tienda"  >
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <input type="submit" [disabled]="!formNewTienda.form.valid"  class="form-control"
+                                        class="btn btn-success btn-round" value="Crear Tienda" >
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end notice modal -->
+
+
+            </div>
+
+            <div role="button" *ngFor="let row of arrayTiendasAdmin" class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats" (click)="irdetalleTienda(row._id)">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">store</i>
+                        </div>
+                        <p class="card-category"></p>
+                        <h4 class="card-title">{{row.nombre}}</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">place</i> {{row.ubicacion}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

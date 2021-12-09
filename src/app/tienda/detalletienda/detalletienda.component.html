@@ -1,0 +1,339 @@
+<div class="main-content  mt-0 pt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="" style="background-color:transparent;">
+                    <div class="pt-2">
+                        <h2 *ngIf="Usuario.rol == 'ADMIN_ROLE'">
+                            <span class=" pull-right">
+                                <button mat-raised-button class="btn btn-behance btn-round" data-toggle="modal"
+                                    data-target="#noticeModal">
+                                    <i class="material-icons"> inventory_2 </i> Agregar
+                                </button>
+                            </span>
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- CReacion de una nueva Tienda -->
+                <!-- notice modal -->
+                <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-notice">
+
+
+                        <div class="modal-content">
+                            <form #formNewArticulo="ngForm" (ngSubmit)="AgregarAticulos(formNewArticulo)" class="form"
+                                method="" action="">
+                                <div class="modal-header">
+
+                                    <h3 class="modal-title" id="myModalLabel">Nuevo Articulo</h3>
+                                    <button mat-button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">
+                                        <i class="material-icons">close</i>
+                                    </button>
+
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="instruction">
+                                        <label for=""> Informacion sobre el Articulo</label>
+                                        <div class="row">
+
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #clave="ngModel" [(ngModel)]="newArticulo.clave" matInput
+                                                        type="text" required placeholder="Clave" name="clave">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #descripcion="ngModel" [(ngModel)]="newArticulo.descripcion"
+                                                        required matInput type="text" placeholder="Nombre"
+                                                        name="descripcion">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #costoCompra="ngModel" [(ngModel)]="newArticulo.costoCompra"
+                                                        required matInput type="text" placeholder="Costo Compra"
+                                                        name="costoCompra">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #costoVenta="ngModel" [(ngModel)]="newArticulo.costoVenta"
+                                                        required matInput type="text" placeholder="Costo Venta"
+                                                        name="costoVenta">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #cantidad="ngModel" [(ngModel)]="newArticulo.cantidad"
+                                                        required name="cantidad" matInput type="text"
+                                                        placeholder="Cantidad">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #perecedero="ngModel" [(ngModel)]="newArticulo.perecedero"
+                                                        required name="perecedero" matInput type="date"
+                                                        placeholder="Fecha Perecedero">
+                                                </mat-form-field>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input #proveedor="ngModel" [(ngModel)]="newArticulo.proveedor"
+                                                        required name="proveedor" matInput type="text"
+                                                        placeholder="RFC Proveedor">
+                                                </mat-form-field>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <input type="submit" [disabled]="!formNewArticulo.form.valid" class="form-control"
+                                        class="btn btn-success btn-round" value="Agregar Articulo">
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end notice modal -->
+
+
+            </div>
+        </div>
+
+        <div class="row" *ngIf="ventasRealizadasArticulos.length > 0">
+
+            <div class="col-md-9 ml-auto mr-auto">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">Detalle Venta</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th class="text-center">Clave</th>
+                                        <th class="text-center"> Nombre</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-center">SubTotal</th>
+
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let row of ventasRealizadasArticulos">
+
+                                        <td class="text-center">{{row.articulos.clave}}</td>
+                                        <td class="text-center">{{row.articulos.descripcion}}</td>
+
+                                        <td class="text-center">{{row.cantidad}}</td>
+                                        <td class="text-center"> {{"S/. " + row.pTotal}}</td>
+
+
+                                        <td class="td-actions text-right">
+
+                                            <button (click)="eliminarVenta(row._id,row.cantidad)" mat-raised-button
+                                                type="button" class="btn btn-danger ">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td class="td-total">
+                                            Total
+                                        </td>
+                                        <td class="td-price">
+                                            {{"S/." + TotalVentaFinal}}
+                                        </td>
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">Articulos</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">{{ tableData2.headerRow[0] }}</th>
+                                        <th>{{ tableData2.headerRow[1] }}</th>
+                                        <th>{{ tableData2.headerRow[2] }}</th>
+                                        <th>{{ tableData2.headerRow[3] }}</th>
+                                        <th>{{ tableData2.headerRow[4] }}</th>
+                                        <th class="text-center">{{ tableData2.headerRow[5] }}</th>
+                                        <th class="text-center">{{ tableData2.headerRow[6] }}</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let row of tableData2.dataRows">
+
+                                        <td class="text-center">{{row.clave}}</td>
+                                        <td>{{row.descripcion}}</td>
+
+                                        <td>{{row.cantidad}}</td>
+                                        <td>{{row.proveedor.nombre}}</td>
+                                        <td class="text-center">€{{ row.costoVenta }}</td>
+                                        <td class="text-center">
+                                            &euro; {{row.costoCompra}}
+                                        </td>
+
+
+
+                                        <td class="td-actions text-center">
+
+                                            <button (click)="seleccionarVenta(row)" data-toggle="modal"
+                                                data-target="#nuevaVentaModal" mat-raised-button type="button"
+                                                class="btn btn-success ">
+                                                <i class="material-icons">check</i>
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td class="td-total">
+
+                                        </td>
+                                        <td class="td-price">
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- CReacion de una nueva Venta -->
+            <!-- notice modal -->
+            <div class="modal fade" id="nuevaVentaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-notice">
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+
+                            <div class="instruction">
+                                <h4 for="" class=""> Informacion de acceso a la Tienda</h4>
+
+                                <div class="row">
+
+
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput type="text" placeholder="Clave del atiruclo"
+                                                value="{{articuloSelecionado.clave}}" disabled>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput type="text" placeholder="Nombre atiruclo"
+                                                value="{{articuloSelecionado.descripcion}}" disabled>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput type="text" placeholder="precio de la Tienda"
+                                                value="{{articuloSelecionado.costoVenta}}" disabled>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input [(ngModel)]="cantidadVenta" matInput type="number" min="1"
+                                                max="{{articuloSelecionado.cantidad}}"
+                                                placeholder="cantidad de la Tienda">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-12 d-flex justify-content-end">
+                                        <h3 class="td-total fw-bold">
+                                            SubTotal S/. {{" "+ cantidadVenta * articuloSelecionado.costoVenta}} &nbsp;
+                                        </h3>
+                                        &nbsp;
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button (click)="confirmarArticuloVenta()" mat-raised-button type="button"
+                                class="btn btn-success btn-round" data-dismiss="modal" aria-hidden="true">Confirmar
+                                Venta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end notice modal -->
+
+        </div>
+
+
+
+    </div>
+</div>
